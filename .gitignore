@@ -1,0 +1,14 @@
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+
+raytracer_rust/.DS_Store
+raytracer_rust/target
+raytracer_rust/target/
+raytracer_rust/target/*
+
+raytracer_cpp/.DS_Store
+raytracer_cpp/target
+raytracer_cpp/target/
+raytracer_cpp/target/*
