@@ -1,3 +1,5 @@
+// from the book by Peter Shirley
+
 #include "color.h"
 #include "ray.h"
 #include "vec3.h"
