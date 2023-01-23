@@ -17,7 +17,7 @@ fn main() {
 
     let mut world = World::new(512);
 
-    // reference coordinates for the hittables
+    // reference coordinates for the hittables, to make them easier to move around in the scene
     let z = -2.0;
     let x = 0.0;
     
