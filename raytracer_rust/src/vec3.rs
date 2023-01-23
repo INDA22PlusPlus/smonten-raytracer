@@ -1,7 +1,9 @@
 use std::ops::{Add, Mul, Div, Sub, Index, IndexMut};
 use std::fmt;
+use rand::Rng;
 
-#[derive(Debug, Clone)]
+
+#[derive(Debug, Clone, PartialEq)]
 pub struct Vec3 {
     xyz: [f32; 3]
 }
@@ -10,7 +12,7 @@ impl Vec3 {
         Vec3 { xyz: [x, y, z] }
     }
 
-    pub fn dot(self, other: Vec3) -> f32 {
+    pub fn dot(&self, other: &Vec3) -> f32 {
         self[0]*other[0] + self[1]*other[1] + self[2]*other[2]
     }
 
@@ -137,6 +139,24 @@ impl fmt::Display for Vec3 {
     }
 }
 
+pub fn clamp(v: &Vec3) -> Vec3{
+    Vec3::new(
+        clamp_f32(v[0]),
+        clamp_f32(v[1]),
+        clamp_f32(v[2])
+    )
+}
+
+fn clamp_f32(f: f32) -> f32 {
+    if f < 0.0 {
+        return 0.0
+    } else if f > 0.999 {
+        return 0.999
+    } else {
+        return f
+    }
+}
+
 pub fn length(v: Vec3) -> f32 {
     f32::sqrt(
         v[0]*v[0] + v[1]*v[1] + v[2]*v[2]
@@ -145,4 +165,46 @@ pub fn length(v: Vec3) -> f32 {
 
 pub fn normalize(v: &Vec3) -> Vec3 {
     v.clone() / length(v.clone())
+}
+
+pub fn random_f32() -> f32 {
+    let mut rng = rand::thread_rng();
+    return rng.gen_range(0.0..0.9);
+}
+
+pub fn random_in_unit_sphere() -> Vec3 {
+    let mut rng = rand::thread_rng();
+    
+    let rho = rng.gen_range(0.0..0.9);
+    let theta = rng.gen_range(0.0..360.0);
+    let phi = rng.gen_range(0.0..180.0);
+
+    let x = rho * f32::sin(phi) * f32::cos(theta);
+    let y = rho * f32::sin(phi) * f32::sin(theta);
+    let z = rho * f32::cos(phi);
+
+    return Vec3::new(x, y, z);
+}
+
+pub struct Color {
+}
+impl Color {
+    pub fn red() -> Vec3 {
+        Vec3::new(1.0, 0.0, 0.0)
+    }
+    pub fn blue() -> Vec3 {
+        Vec3::new(0.0, 0.0, 1.0)
+    }
+    pub fn green() -> Vec3 {
+        Vec3::new(0.0, 1.0, 0.0)
+    }
+    pub fn orange() -> Vec3 {
+        Vec3::new(255.0, 165.0, 0.0) / 255.0
+    }
+    pub fn white() -> Vec3 {
+        Vec3::new(1.0, 1.0, 1.0)
+    }
+    pub fn black() -> Vec3 {
+        Vec3::new(0.0, 0.0, 0.0)
+    }
 }
