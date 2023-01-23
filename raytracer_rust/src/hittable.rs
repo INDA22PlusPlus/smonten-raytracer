@@ -14,37 +14,31 @@ impl Hittable {
         match &self.shape {
             
             Shape::Plane(plane) => {
-                // print!("looking at plane, ");
                 let a = plane.a;
                 let b = plane.b;
                 let c = plane.c;
                 let d = plane.d;
 
                 // plane eq: ax + by + cz = d
+                // obs I had to set a minus befor d below
                 let dist = f32::abs(a*p[0] + b*p[1] + c*p[2] - d) / f32::sqrt(a*a + b*b + c*c);
-                // println!("dist = {}", dist);
                 dist
             },
             Shape::Sphere(sphere) => {
-                // print!("looking at sphere, ");
                 let dist = length(p.clone() - sphere.c.clone()) - sphere.r.clone();
-                // println!("dist = {}", dist);
                 dist
             }
         }
     }
 
     pub fn get_normal(&self, p: &Vec3) -> Vec3 {
-        // println!("getting normal at = ({}, {}, {})", p[0], p[1], p[2]);
         match &self.shape {
             Shape::Plane(plane) => {
-                // println!("this is a plane");
                 normalize(
                     &Vec3::new(plane.a, plane.b, plane.c)
                 )
             },
             Shape::Sphere(sphere) => {
-                // println!("this is a sphere");
                 normalize(
                     &(p.clone() - sphere.c.clone())
                 )
@@ -65,7 +59,7 @@ impl Hittable {
                 let dir_dot_norm = A*d + B*e + C*f;
 
                 if f32::abs(dir_dot_norm) < 0.001 {
-                    // line is essentially parallel with plane
+                    // line is parallel with plane
                     return Err(());
                 }
 
@@ -76,7 +70,7 @@ impl Hittable {
                     return Err(());
                 }
 
-                // distance is ||dir||*t
+                // distance is ||dir||*t = 1*t = t
                 return Ok(t);
             },
             Shape::Sphere(sphere) => {
@@ -94,10 +88,7 @@ impl Hittable {
                     if dist < 0.0 {
                         return Err(());
                     }
-
-                    // println!("dist = {}", dist);
-
-
+                    
                     return Ok(
                         dist
                     );
